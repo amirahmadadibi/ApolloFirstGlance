@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.apollographql.apollo.ApolloCall;
 import com.apollographql.apollo.ApolloClient;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     ApolloClient apolloClient;
     List<Post> postList = new ArrayList<>();
     RecyclerView recyclerView;
+    ProgressBar progressBar;
     public static final String BASE_URL = "https://api.graph.cool/simple/v1/cjrhtrvlvari401295bq0ul6f";
 
     @Override
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = findViewById(R.id.rv_main);
+        progressBar = findViewById(R.id.pb_main);
+        progressBar.setVisibility(View.VISIBLE);
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
         apolloClient = ApolloClient.builder()
                 .serverUrl(BASE_URL)
@@ -62,8 +67,10 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         CustomAdapter customAdapter = new CustomAdapter(postList, MainActivity.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                        progressBar.setVisibility(View.INVISIBLE);
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(customAdapter);
                     }
