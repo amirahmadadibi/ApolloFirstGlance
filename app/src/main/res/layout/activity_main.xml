@@ -7,8 +7,7 @@
     tools:context=".MainActivity"
     android:layoutDirection="rtl"
     android:background="@drawable/gradient_background"
-    android:fitsSystemWindows="true"
-    >
+    android:paddingTop="10dp">
 
     <ProgressBar
         android:id="@+id/pb_main"
