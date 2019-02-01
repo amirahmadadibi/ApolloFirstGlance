@@ -2,5 +2,7 @@ query allPostsQuery{
   allPosts{
     postTitle
     postContent
+    topic
+    imageUrl
   }
 }
