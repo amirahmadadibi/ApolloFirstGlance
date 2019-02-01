@@ -2,6 +2,8 @@ package projects.com.amirahmadadibi.apollofirstglance;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.apollographql.apollo.ApolloCall;
@@ -20,12 +22,14 @@ import projects.com.amirahmadadibi.apollofirstglance.model.Post;
 public class MainActivity extends AppCompatActivity {
     ApolloClient apolloClient;
     List<Post> postList = new ArrayList<>();
+    RecyclerView recyclerView;
     public static final String BASE_URL = "https://api.graph.cool/simple/v1/cjrhtrvlvari401295bq0ul6f";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.rv_main);
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
         apolloClient = ApolloClient.builder()
                 .serverUrl(BASE_URL)
@@ -47,6 +51,16 @@ public class MainActivity extends AppCompatActivity {
                     post.setTopic(response.data().allPosts.get(i).topic);
                     postList.add(post);
                 }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CustomAdapter customAdapter = new CustomAdapter(postList, MainActivity.this);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(customAdapter);
+                    }
+                });
             }
 
             @Override
