@@ -1,5 +1,6 @@
 package projects.com.amirahmadadibi.apollofirstglance;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 import okhttp3.OkHttpClient;
 import projects.com.amirahmadadibi.apollofirstglance.model.Post;
 
@@ -24,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
     List<Post> postList = new ArrayList<>();
     RecyclerView recyclerView;
     public static final String BASE_URL = "https://api.graph.cool/simple/v1/cjrhtrvlvari401295bq0ul6f";
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
